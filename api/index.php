@@ -1,6 +1,24 @@
 <?php
+
+ use Illuminate\Http\Request;
+ use Illuminate\Support\Facades\Route;
  
-require __DIR__ . '/../public/index.php';
+ define('LARAVEL_START', microtime(true));
+ 
+ require __DIR__.'/../vendor/autoload.php';
+ 
+ $app = require_once __DIR__.'/../bootstrap/app.php';
+ 
+ $app->bind('request', Request::class);
+ 
+ $app->instance('request', Request::capture());
+ 
+ Route::middleware('api')
+     ->prefix('api')
+     ->group(base_path('routes/api.php'));
+ 
+ $app->run();
+// require __DIR__ . '/../public/index.php';
 
 
 // Load the Laravel application
